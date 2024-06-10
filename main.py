@@ -95,10 +95,10 @@ def main():
                 brightest = get_all_colors(all_pixels)
                 create_image_from_pixels(brightest)
             print("done :3")
+            return
         else:
             move("pixels_output.json", "pixels_output-old.json")
         
-        return
         
 
     all_pixels = {}
@@ -109,6 +109,7 @@ def main():
     
     brightest = get_all_colors(all_pixels)
     create_image_from_pixels(brightest)
+    print("done :3")
         
         
 if __name__ == "__main__":
