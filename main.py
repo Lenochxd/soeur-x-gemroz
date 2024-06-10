@@ -1,10 +1,8 @@
-from PIL import Image
+from PIL import Image, ImageColor
 from shutil import move
 import os
 import json
 
-
-all_pixels = {}
 
 def resize_image(image, new_width, new_height):
     width, height = image.size
@@ -18,6 +16,8 @@ def resize_image(image, new_width, new_height):
 
 
 def get_image_pixels(image_path):
+    global all_pixels
+    
     image = Image.open(image_path)
     new_width = 720
     new_height = 140
@@ -34,16 +34,82 @@ def get_image_pixels(image_path):
             all_pixels[f'{x};{y}'].append(f"#{pixel[0]:02X}{pixel[1]:02X}{pixel[2]:02X}")
             # print(f"#{pixel[0]:02X}{pixel[1]:02X}{pixel[2]:02X}")
     
-    with open('output.json', 'w') as f:
+    with open('pixels_output.json', 'w') as f:
         json.dump(all_pixels, f)
 
+def get_brightest_color(colors):
+    brightest = None
+    max_brightness = 0
+    for color in colors:
+        r = int(color[1:3], 16)
+        g = int(color[3:5], 16)
+        b = int(color[5:7], 16)
+        brightness = (r * 299 + g * 587 + b * 114) // 1000
+        if brightness > max_brightness:
+            max_brightness = brightness
+            brightest = color
+    return brightest
 
-if __name__ == "__main__":
-    if os.path.isfile('output.json'):
-        move('output.json', 'output-old.json')
-        
-    get_image_pixels("frames/0-00001.png")
+
+def get_all_colors(all_pixels):
+    brightest = {}
+
+    for pos, colors in all_pixels.items():
+        brightest[pos] = get_brightest_color(colors)
+
+    with open("brightest_pixels.json", "w") as f:
+        json.dump(all_pixels, f)
     
-    # for filename in os.listdir("frames"):
-    #     print('=====', filename, '=====')
-    #     get_image_pixels(os.path.join("frames", filename))
+    return brightest
+
+
+def create_image_from_pixels(pixel_data):
+    max_x = max_y = 0
+    for key in pixel_data.keys():
+        x, y = map(int, key.split(';'))
+        if x > max_x:
+            max_x = x
+        if y > max_y:
+            max_y = y
+    
+    image = Image.new("RGB", (max_x + 1, max_y + 1))
+    
+    for key, color in pixel_data.items():
+        x, y = map(int, key.split(';'))
+        image.putpixel((x, y), ImageColor.getrgb(color))
+    
+
+    image.save("output.png")
+
+
+def main():
+    global all_pixels
+    
+    if os.path.isfile("pixels_output.json"):
+        choice = input(
+            "A previous data file has been found. Do you want to use it? (y/n): " # ကလဌ ୟ્ઃ᳹
+        )
+        if choice.lower() in ['y','']:
+            with open("pixels_output.json", "r") as f:
+                all_pixels = json.load(f)
+                brightest = get_all_colors(all_pixels)
+                create_image_from_pixels(brightest)
+            print("done :3")
+        else:
+            move("pixels_output.json", "pixels_output-old.json")
+        
+        return
+        
+
+    all_pixels = {}
+
+    for filename in os.listdir("frames"):
+        print('=====', filename, '=====')
+        get_image_pixels(os.path.join("frames", filename))
+    
+    brightest = get_all_colors(all_pixels)
+    create_image_from_pixels(brightest)
+        
+        
+if __name__ == "__main__":
+    main()
