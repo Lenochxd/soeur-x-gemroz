@@ -8,7 +8,10 @@ Ce projet analyse les frames d'une vidéo teaser postée sur Twitter par Ptite S
 
 **Image Finale**
 
-![Image Finale](output.png)
+|           Frames twitter            |           Frames instagram            |         Frames des deux          |
+| :---------------------------------: | :-----------------------------------: | :------------------------------: |
+| ![Image Finale](output-TWITTER.png) | ![Image Finale](output-INSTAGRAM.png) | ![Image Finale](output-BOTH.png) |
+
 
 ## Contexte
 Ptite Soeur et Gemroz ont posté [un teaser sur Twitter](https://twitter.com/PRXPVNE/status/1800230037611753785). À la fin de la vidéo, un message caché est présent mais indescriptible directement. 
