@@ -102,10 +102,29 @@ def main():
         
 
     all_pixels = {}
+    
+    choice = input("Use twitter frames, instagram frames or both (t/i/b): ").lower()
 
-    for filename in os.listdir("frames"):
-        print('=====', filename, '=====')
-        get_image_pixels(os.path.join("frames", filename))
+
+    if choice.startswith("t"):
+        for filename in os.listdir("frames-twi"):
+            print("=====", filename, "=====")
+            get_image_pixels(os.path.join("frames-twi", filename))
+
+    elif choice.startswith("i"):
+        for filename in os.listdir("frames-insta"):
+            print("=====", filename, "=====")
+            get_image_pixels(os.path.join("frames-insta", filename))
+        
+
+    else:
+        for filename in os.listdir("frames-twi"):
+            print("===== t:", filename, "=====")
+            get_image_pixels(os.path.join("frames-twi", filename))
+        for filename in os.listdir("frames-insta"):
+            print("===== i:", filename, "=====")
+            get_image_pixels(os.path.join("frames-insta", filename))
+
     
     brightest = get_all_colors(all_pixels)
     create_image_from_pixels(brightest)
