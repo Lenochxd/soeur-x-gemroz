@@ -63,7 +63,7 @@ def get_all_colors(all_pixels):
     return brightest
 
 
-def create_image_from_pixels(pixel_data):
+def create_image_from_pixels(pixel_data, name):
     max_x = max_y = 0
     for key in pixel_data.keys():
         x, y = map(int, key.split(';'))
@@ -79,7 +79,7 @@ def create_image_from_pixels(pixel_data):
         image.putpixel((x, y), ImageColor.getrgb(color))
     
 
-    image.save("output.png")
+    image.save(name)
 
 
 def main():
@@ -93,7 +93,7 @@ def main():
             with open("pixels_output.json", "r") as f:
                 all_pixels = json.load(f)
                 brightest = get_all_colors(all_pixels)
-                create_image_from_pixels(brightest)
+                create_image_from_pixels(brightest, 'output.png')
             print("done :3")
             return
         else:
@@ -109,12 +109,18 @@ def main():
     if choice.startswith("t"):
         for filename in os.listdir("frames-twi"):
             print("=====", filename, "=====")
-            get_image_pixels(os.path.join("frames-twi", filename))
+            get_image_pixels(os.path.join("frames-twi", filename)
+
+        brightest = get_all_colors(all_pixels)
+        create_image_from_pixels(brightest, 'output-TWITTER.png'))
 
     elif choice.startswith("i"):
         for filename in os.listdir("frames-insta"):
             print("=====", filename, "=====")
             get_image_pixels(os.path.join("frames-insta", filename))
+
+        brightest = get_all_colors(all_pixels)
+        create_image_from_pixels(brightest, 'output-INSTAGRAM.png')
         
 
     else:
@@ -125,9 +131,9 @@ def main():
             print("===== i:", filename, "=====")
             get_image_pixels(os.path.join("frames-insta", filename))
 
+        brightest = get_all_colors(all_pixels)
+        create_image_from_pixels(brightest, 'output-BOTH.png')
     
-    brightest = get_all_colors(all_pixels)
-    create_image_from_pixels(brightest)
     print("done :3")
         
         
