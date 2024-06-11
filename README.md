@@ -18,7 +18,7 @@ Ptite Soeur et Gemroz ont posté [un teaser sur Twitter](https://twitter.com/PRX
 
 Mon thread twitter expliquant plus en détails [juste ici](https://twitter.com/LenochJ/status/1800313166775427112)
 
-![code](https://i.imgur.com/kuB9tae.png)
+![code](https://i.imgur.com/9rkTIQx.png)
 
 ## Méthode
 Pour décrypter ce message :
