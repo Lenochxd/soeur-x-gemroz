@@ -135,17 +135,17 @@ def create_image_from_pixels(pixel_data, name):
         image.putpixel((x, y), ImageColor.getrgb(color))
     
 
-    image.save(name)
+    image.save(os.path.join("output", name))
 
 
 def main():
     global all_pixels, method
-    
+
     if os.path.isfile("pixels_output.json"):
         choice = input(
             "A previous data file has been found. Do you want to use it? (y/n): " # ကလဌ ୟ્ઃ᳹
         )
-        
+
     method = int(input(
         "\nChoose your method (1/2/3):\n" \
         "1: Keep the brightest pixels\n" \
@@ -164,13 +164,21 @@ def main():
             return
         else:
             move("pixels_output.json", "pixels_output-old.json")
-        
-        
+
+
 
     all_pixels = {}
 
     choice = input("Use twitter frames, instagram frames or both (t/i/b): ").lower()
 
+
+    method_name = ""
+    if method == 2:
+        method_name = "-nobg"
+    elif method == 3:
+        method_name = "-avg"
+    elif method == 4:
+        method_name = "-darkest"
 
     if choice.startswith("t"):
         for filename in os.listdir("frames-twi"):
@@ -178,7 +186,7 @@ def main():
             get_image_pixels(os.path.join("frames-twi", filename))
 
         brightest = get_all_colors(all_pixels)
-        create_image_from_pixels(brightest, 'output-TWITTER.png')
+        create_image_from_pixels(brightest, f'output{method_name}-TWITTER.png')
 
     elif choice.startswith("i"):
         for filename in os.listdir("frames-insta"):
@@ -186,8 +194,8 @@ def main():
             get_image_pixels(os.path.join("frames-insta", filename))
 
         brightest = get_all_colors(all_pixels)
-        create_image_from_pixels(brightest, 'output-INSTAGRAM.png')
-        
+        create_image_from_pixels(brightest, f'output{method_name}-INSTAGRAM.png')
+
 
     else:
         for filename in os.listdir("frames-twi"):
@@ -198,8 +206,8 @@ def main():
             get_image_pixels(os.path.join("frames-insta", filename))
 
         brightest = get_all_colors(all_pixels)
-        create_image_from_pixels(brightest, 'output-BOTH.png')
-    
+        create_image_from_pixels(brightest, f'output{method_name}-BOTH.png')
+
     print("done :3")
         
         
