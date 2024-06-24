@@ -106,6 +106,8 @@ def get_all_colors(all_pixels):
             brightest[pos] = get_color(colors)
         elif method == 3:
             brightest[pos] = get_average_color(colors)
+        elif method == 4:
+            brightest[pos] = get_darkest_color(colors)
             
 
     with open("brightest_pixels.json", "w") as f:
