@@ -109,10 +109,10 @@ def main():
     if choice.startswith("t"):
         for filename in os.listdir("frames-twi"):
             print("=====", filename, "=====")
-            get_image_pixels(os.path.join("frames-twi", filename)
+            get_image_pixels(os.path.join("frames-twi", filename))
 
         brightest = get_all_colors(all_pixels)
-        create_image_from_pixels(brightest, 'output-TWITTER.png'))
+        create_image_from_pixels(brightest, 'output-TWITTER.png')
 
     elif choice.startswith("i"):
         for filename in os.listdir("frames-insta"):
