@@ -50,12 +50,61 @@ def get_brightest_color(colors):
             brightest = color
     return brightest
 
+def get_darkest_color(colors):
+    darkest = None
+    min_brightness = float('inf')
+    for color in colors:
+        r = int(color[1:3], 16)
+        g = int(color[3:5], 16)
+        b = int(color[5:7], 16)
+        brightness = (r * 299 + g * 587 + b * 114) // 1000
+        if brightness < min_brightness:
+            min_brightness = brightness
+            darkest = color
+    return darkest
+
+def get_average_color(colors):
+    total_r = total_g = total_b = 0
+    for color in colors:
+        r = int(color[1:3], 16)
+        g = int(color[3:5], 16)
+        b = int(color[5:7], 16)
+        total_r += r
+        total_g += g
+        total_b += b
+    
+    num_colors = len(colors)
+    avg_r = total_r // num_colors
+    avg_g = total_g // num_colors
+    avg_b = total_b // num_colors
+    
+    return f"{avg_r:02X}{avg_g:02X}{avg_b:02X}"
+    
+def is_brightest(color):
+    r = int(color[1:3], 16)
+    g = int(color[3:5], 16)
+    b = int(color[5:7], 16)
+    brightness = (r * 299 + g * 587 + b * 114) // 1000
+    return brightness < 127
+    
+
+def get_color(colors):
+    average = get_average_color(colors)
+    if is_brightest(average):
+        return get_brightest_color(colors)
+    else:
+        return get_darkest_color(colors)
+
 
 def get_all_colors(all_pixels):
     brightest = {}
 
     for pos, colors in all_pixels.items():
-        brightest[pos] = get_brightest_color(colors)
+        if method == 1:
+            brightest[pos] = get_brightest_color(colors)
+        elif method == 2:
+            brightest[pos] = get_color(colors)
+            
 
     with open("brightest_pixels.json", "w") as f:
         json.dump(all_pixels, f)
@@ -83,7 +132,7 @@ def create_image_from_pixels(pixel_data, name):
 
 
 def main():
-    global all_pixels
+    global all_pixels, method
     
     if os.path.isfile("pixels_output.json"):
         choice = input(
@@ -103,6 +152,13 @@ def main():
 
     all_pixels = {}
     
+    method = int(input(
+        "\nChoose your method (1/2):\n" \
+        "1: Keep the brightest pixels\n" \
+        "2: First look at the average brightness of each pixel, keep the brightest if the average is brighter, and keep the darkest if the average is darker.\n" \
+        "\nMethod (1/2):"
+    ).strip())
+
     choice = input("Use twitter frames, instagram frames or both (t/i/b): ").lower()
 
 
