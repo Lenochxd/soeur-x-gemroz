@@ -8,10 +8,23 @@ Ce projet analyse les frames d'une vidéo teaser postée sur Twitter par Ptite S
 
 **Image Finale**
 
+Méthode 1: Garder les pixels les plus lumineux
+
 |           Frames twitter            |           Frames instagram            |         Frames des deux          |
 | :---------------------------------: | :-----------------------------------: | :------------------------------: |
-| ![Image Finale](output-TWITTER.png) | ![Image Finale](output-INSTAGRAM.png) | ![Image Finale](output-BOTH.png) |
+| ![Image Finale](output/output-TWITTER.png) | ![Image Finale](output/output-INSTAGRAM.png) | ![Image Finale](output/output-BOTH.png) |
 
+Méthode 2: Garder les pixels les plus lumineux ou sombres en fonction de leur luminosité
+
+|           Frames twitter            |           Frames instagram            |         Frames des deux          |
+| :---------------------------------: | :-----------------------------------: | :------------------------------: |
+| ![Image Finale](output/output-nobg-TWITTER.png) | ![Image Finale](output/output-nobg-INSTAGRAM.png) | ![Image Finale](output/output-nobg-BOTH.png) |
+
+Méthode 3: Garder la couleur moyenne de chaque pixel
+
+|           Frames twitter            |           Frames instagram            |         Frames des deux          |
+| :---------------------------------: | :-----------------------------------: | :------------------------------: |
+| ![Image Finale](output/output-avg-TWITTER.png) | ![Image Finale](output/output-avg-INSTAGRAM.png) | ![Image Finale](output/output-avg-BOTH.png) |
 
 ## Contexte
 Ptite Soeur et Gemroz ont posté [un teaser sur Twitter](https://twitter.com/PRXPVNE/status/1800230037611753785). À la fin de la vidéo, un message caché est présent mais indescriptible directement. 
