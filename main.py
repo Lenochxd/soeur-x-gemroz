@@ -104,6 +104,8 @@ def get_all_colors(all_pixels):
             brightest[pos] = get_brightest_color(colors)
         elif method == 2:
             brightest[pos] = get_color(colors)
+        elif method == 3:
+            brightest[pos] = get_average_color(colors)
             
 
     with open("brightest_pixels.json", "w") as f:
@@ -125,6 +127,9 @@ def create_image_from_pixels(pixel_data, name):
     
     for key, color in pixel_data.items():
         x, y = map(int, key.split(';'))
+        if not color.startswith('#'):
+            color = '#' + color
+                
         image.putpixel((x, y), ImageColor.getrgb(color))
     
 
@@ -138,6 +143,16 @@ def main():
         choice = input(
             "A previous data file has been found. Do you want to use it? (y/n): " # ကလဌ ୟ્ઃ᳹
         )
+        
+    method = int(input(
+        "\nChoose your method (1/2/3):\n" \
+        "1: Keep the brightest pixels\n" \
+        "2: First look at the average brightness of each pixel, keep the brightest if the average is brighter, and keep the darkest if the average is darker\n" \
+        "3: Keep the average color of each pixels\n" \
+        "\nMethod (1/2/3): "
+    ).strip())
+
+    if os.path.isfile("pixels_output.json"):
         if choice.lower() in ['y','']:
             with open("pixels_output.json", "r") as f:
                 all_pixels = json.load(f)
@@ -151,13 +166,6 @@ def main():
         
 
     all_pixels = {}
-    
-    method = int(input(
-        "\nChoose your method (1/2):\n" \
-        "1: Keep the brightest pixels\n" \
-        "2: First look at the average brightness of each pixel, keep the brightest if the average is brighter, and keep the darkest if the average is darker.\n" \
-        "\nMethod (1/2):"
-    ).strip())
 
     choice = input("Use twitter frames, instagram frames or both (t/i/b): ").lower()
 
